@@ -19,7 +19,7 @@ resource "alicloud_fc_trigger" "event" {
   service    = local.service_name
   function   = alicloud_fc_function.events.0.name
   name       = "${local.events_trigger_name}-${count.index}"
-  role       = lookup(var.events_triggers[count.index], "role", local.trigger_role)
+  role       = lookup(var.events_triggers[count.index], "type", "") == "timer" ? "" : lookup(var.events_triggers[count.index], "role", local.trigger_role)
   source_arn = lookup(var.events_triggers[count.index], "source_arn", local.trigger_source_arn)
   type       = lookup(var.events_triggers[count.index], "type", "")
   config     = lookup(var.events_triggers[count.index], "config", null)
